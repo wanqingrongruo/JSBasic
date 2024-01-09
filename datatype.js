@@ -160,4 +160,70 @@ var obj = {
     bar: "world"
 }
 
-// key 是字符串(symbol 后面引入), 可不加引号, 不过对于 不符合biao'shi
+// key 是字符串(Symbol值 后面引入), 可不加引号, 不过对于不符合标识名的需要加上引号
+
+print(obj.foo);
+print(obj["foo"]);
+
+// 属性查看
+print(Object.keys(obj));
+
+// 属性赋值
+obj.name = "roni";
+print(obj.name);
+
+// 属性删除
+delete obj.foo; // 有返回值, bool
+print(Object.keys(obj));
+
+// 注意，删除一个不存在的属性，delete不报错，而且返回true
+
+// 只有一种情况，delete命令会返回false，那就是该属性存在，且不得删除
+var obj2 = Object.defineProperty({}, 'p', {
+    value: 123,
+    configurable: false
+  });
+  
+  obj2.p // 123
+  var value = delete obj2.p;
+  print(value);
+
+// 需要注意的是，delete命令只能删除对象本身的属性，无法删除继承的属性
+
+
+// in 运算符, 查询属性是否存在, 检查的时键名, 不是键值
+ var isExistP = "name" in obj;
+ print(isExistP);
+
+ // in 只能检查对象是否有此属性, 不能确认是自身的, 还是继承的
+ // 使用  hasOwnProperty() 方法判断是否是对象自身属性
+ var isString = 'toString' in obj // true
+ if (isString) {
+    print(obj.hasOwnProperty('toString'));
+ }
+
+ print("================");
+ // 属性遍历
+ // for...in 
+ // 遍历的是对象所有可遍历（enumerable）的属性，会跳过不可遍历的属性
+//  不仅遍历对象自身的属性，还遍历继承的属性
+ for (var p in obj) {
+    print(p);
+    print(obj[p]);
+ }
+
+// 如果继承的属性是可遍历的，那么就会被for...in循环遍历到
+// 可以结合 hasOwnProperty 方法 遍历自身的属性
+
+// with 语句
+// 它的作用是操作同一个对象的多个属性时，提供一些书写的方便
+with (obj) {
+    bar = "ba",
+    name = "devzheng"
+}
+// 注意，如果with区块内部有变量的赋值操作，必须是当前对象已经存在的属性，否则会创造一个当前作用域的全局变量。
+// with区块没有改变作用域，它的内部依然是当前作用域
+// 这造成了with语句的一个很大的弊病，就是绑定对象不明确
+// !不建议用 with
+
+
